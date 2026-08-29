@@ -1,0 +1,30 @@
+# Все допущения о доступности данных - здесь, явно.
+paths:
+  db: db/peak.sqlite
+  raw_calcfacthour: data/calcfacthour
+  raw_fact_region: data/fact_region
+  raw_pdem: data/pdem
+  ext_xlsx: data/ext/krasnoyarsk_gtp_hourly_2024-2026.xlsx
+  so_windows: so_windows.yaml
+
+assumptions:
+  ats_pub_day: 10        # отчеты АТС за месяц M доступны с 10-го числа M+1
+  ext_lag_days: 1        # сторонняя почасовка за день d доступна с d+1 (УТОЧНИТЬ у заказчика)
+  pdem_lag_days: 1       # план на день d публикуется в d-1
+
+eval:
+  date_from: "2025-08-01"
+  date_to:   "2026-07-31"
+
+weather:
+  # Норильск исключен: изолированная энергосистема, не входит в ценовую зону
+  cities:
+    krasnoyarsk: {lat: 56.01, lon: 92.87, weight: 0.62}
+    achinsk:     {lat: 56.27, lon: 90.50, weight: 0.11}
+    kansk:       {lat: 56.20, lon: 95.72, weight: 0.09}
+    zheleznogorsk: {lat: 56.25, lon: 93.53, weight: 0.09}
+    minusinsk:   {lat: 53.71, lon: 91.69, weight: 0.09}
+  date_from: "2023-01-01"
+  vars_fact: [temperature_2m, cloud_cover, shortwave_radiation, apparent_temperature]
+  vars_fc1:  [temperature_2m_previous_day1, cloud_cover_previous_day1,
+              shortwave_radiation_previous_day1, apparent_temperature_previous_day1]
