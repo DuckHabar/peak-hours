@@ -59,8 +59,14 @@ CREATE TABLE IF NOT EXISTS ingest_log (
   src_file TEXT PRIMARY KEY, sha1 TEXT, rows INTEGER, parsed_at TEXT
 );
 
+-- вспомогательные публичные ряды: индексы РСВ 2-й ЦЗ (цена, плановый объем)
+CREATE TABLE IF NOT EXISTS aux (
+  d TEXT NOT NULL, hour INTEGER NOT NULL, src TEXT NOT NULL,
+  value REAL, available_from TEXT NOT NULL,
+  PRIMARY KEY (d, hour, src));
 
 CREATE INDEX IF NOT EXISTS idx_official_load_d ON official_load(d);
 CREATE INDEX IF NOT EXISTS idx_ext_load_d ON ext_load(d, gtp);
 CREATE INDEX IF NOT EXISTS idx_pdem_d ON pdem(d);
 CREATE INDEX IF NOT EXISTS idx_weather_d ON weather(d, kind, var);
+CREATE INDEX IF NOT EXISTS aux_af ON aux(available_from);
